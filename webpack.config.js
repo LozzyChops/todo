@@ -16,5 +16,6 @@ module.exports = {
     devServer: {
         static: './dist',
         open: true
-    }
+    },
+    devtool: 'eval-source-map'
 }
