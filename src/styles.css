@@ -1,11 +1,71 @@
-#divTitleBar {
-  background-color: aquamarine;
+* {
+  box-sizing: border-box;
+  margin: 0;
 }
 
-#divSideBar {
+.flex-container {
+  display: flex;
+}
+
+#project-list {
+  flex-direction: column;
+  gap: 32px;
+}
+
+#project-list-heading {
+  flex-direction: row;
+  justify-content: space-between;
+  flex-wrap: nowrap;
+}
+
+#project-list-heading > h1 {
+  font-size: larger;
+  align-self: center;
+}
+
+#project-list-heading > button {
+  font-weight: bolder;
+  height: 32px;
+  width: 32px;
+  background-color: beige;
+  border: none;
+  border-radius: 2px;
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+}
+
+#project-list-heading > button:hover {
+  transform: scale(1.2);
+}
+
+#project-names {
+  padding: 0;
+}
+
+#project-names > li:hover {
+  font-weight: bold;
+}
+
+.project-name-container {
+  list-style-type: none;
+}
+
+#side-bar {
+  flex-direction: column;
   background-color: aqua;
+  width: 280px;
+  height: 100%;
+  max-width: 280px;
+  min-width: 280px;
+  flex-shrink: 0;
+  /*temporary addition*/
+  min-height: 670px;
+  padding: 36px 48px 0px 48px;
 }
 
-#divContent {
+#content {
   background-color: bisque;
+  width: 100%;
+  height: 100%;
+  /*temporary addition*/
+  min-height: 670px;
 }
