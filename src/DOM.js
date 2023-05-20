@@ -1,3 +1,6 @@
+import { userInterface } from './UI'
+import { projects } from './tools'
+
 const DOMNodes = {
   body: document.querySelector('body'),
   divRoot: document.createElement('div'),
@@ -43,17 +46,26 @@ function setUpInitHTML() {
   DOMNodes.body.appendChild(DOMNodes.divRoot)
 
   //setup text content
-  DOMNodes.hdrProjectList.textContent = "MY PROJECTS"
-  DOMNodes.btnProjectList.textContent = "+"
+  DOMNodes.hdrProjectList.textContent = 'MY PROJECTS'
+  DOMNodes.btnProjectList.textContent = '+'
+
+  //setup events
+  //setup the add-project button to add a project to the collection and update the display
+  DOMNodes.btnProjectList.addEventListener('click', function () {
+    let projectName = prompt('Enter project name', 'EXAMPLE PROJECT')
+    projects.addProject(projectName)
+    userInterface.displayAdditionalProject(projectName)
+  })
 }
 
-const projectNameContainerFactory = (projectName) => {
-  const container = document.createElement('li');
-  container.classList.add('project-name-container');
-  container.textContent = projectName;
-  DOMNodes.ulProjectNames.appendChild(container);
+const projectNameContainerFactory = (name) => {
+  const container = document.createElement('li')
+  container.classList.add('project-name-container')
+  container.textContent = name
+  console.log(container.textContent)
+  DOMNodes.ulProjectNames.appendChild(container)
 
-  return container;
-};
+  return container
+}
 
 export { setUpInitHTML, projectNameContainerFactory }

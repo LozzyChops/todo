@@ -1,17 +1,22 @@
 import { setUpInitHTML, projectNameContainerFactory } from './DOM'
-import { setUpProjects } from './tools'
+import { tasks, projects } from './tools'
 
 const userInterface = {
   displayHomePage: function () {
     setUpInitHTML()
 
-    this.displayProjects()
-  },
+    //include a DEFAULT project
+    projects.addProject("DEFAULT");
 
+    this.displayProjects();
+  },
   displayProjects: function () {
-    for (let i = 0; i < setUpProjects().projectsArray.length; i++) {
-      projectNameContainerFactory(setUpProjects().projectsArray[i].title);
+    for (let i = 0; i <  projects.all.length; i++) {
+      projectNameContainerFactory(projects.all[i].name);
     }
+  },
+  displayAdditionalProject: function (name) {
+    projectNameContainerFactory(name);
   },
 }
 
