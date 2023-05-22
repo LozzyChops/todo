@@ -8,6 +8,10 @@
   display: flex;
 }
 
+.selected {
+  color: blue;
+}
+
 #project-list {
   flex-direction: column;
   gap: 32px;

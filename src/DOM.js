@@ -62,10 +62,11 @@ const projectNameContainerFactory = (name) => {
   const container = document.createElement('li')
   container.classList.add('project-name-container')
   container.textContent = name
-  console.log(container.textContent)
+  container.addEventListener('click', userInterface.changeSelectedProject)
+  
   DOMNodes.ulProjectNames.appendChild(container)
 
   return container
 }
 
-export { setUpInitHTML, projectNameContainerFactory }
+export { DOMNodes, setUpInitHTML, projectNameContainerFactory }
