@@ -54,12 +54,29 @@ function setUpInitHTML() {
   DOMNodes.btnContent.textContent = '+'
 
   //setup events
-  //setup the add-project button to add a project to the collection and update the display
   DOMNodes.btnProjectList.addEventListener('click', function () {
-    let projectName = prompt('Enter project name', 'EXAMPLE PROJECT')
-    projects.addProject(projectName)
-    userInterface.displayAdditionalProject(projectName)
+    //prompt gives a string to make a new project 
+    let newProjectName = prompt('Enter project name', 'EXAMPLE PROJECT')
+
+    //a new set of project objects
+    let newProjectSet = projects.addProject(newProjectName).all
+
+    //update display using the new set of projects
+    userInterface.displayProjects(newProjectSet)
   })
+  //setup the add-task button to add a task to the selected project and update the display
+  DOMNodes.btnContent.addEventListener('click', function () {
+    
+
+  })
+}
+
+const removeAllChildNodes = (parent) => {
+    while (parent.firstChild) {
+        parent.removeChild(parent.firstChild);
+    }
+
+    return parent
 }
 
 const projectNameContainerFactory = (name) => {
@@ -73,12 +90,4 @@ const projectNameContainerFactory = (name) => {
   return container
 }
 
-export { DOMNodes, setUpInitHTML, projectNameContainerFactory }
-
-/*
-//setup the add-task button to add a task to the selected project and update the display
-DOMNodes.btnContent.addEventListener('click', function () {
-  let taskName = prompt('Enter task name', 'EXAMPLE TASK')
-  projects.addTask(taskName)
-})
-*/
+export { DOMNodes, setUpInitHTML, removeAllChildNodes, projectNameContainerFactory }

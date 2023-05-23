@@ -4,7 +4,7 @@ import { projects} from "./tools";
 
 userInterface.displayHomePage();
 
-//temporary additions
+//temporary additions below
 window.userInterface = userInterface;
 window.projects = projects;
 

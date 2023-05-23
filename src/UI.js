@@ -1,38 +1,36 @@
-import { DOMNodes, setUpInitHTML, projectNameContainerFactory } from './DOM'
-import { tasks, projects } from './tools'
+import { DOMNodes, setUpInitHTML, removeAllChildNodes, projectNameContainerFactory } from './DOM'
+import { projects } from './tools'
 
 const userInterface = {
+  displayableProjects: projects.all,
   displayHomePage: function () {
     setUpInitHTML()
 
-    //include a DEFAULT project
+    //TEMP adding a default project
     projects.addProject('DEFAULT')
 
-    this.displayProjects()
+    this.displayProjects(this.displayableProjects)
   },
-  displayProjects: function () {
-    for (let i = 0; i < projects.all.length; i++) {
-      projectNameContainerFactory(projects.all[i].name)
+  displayProjects: function (projectObjects) {
+    removeAllChildNodes(DOMNodes.ulProjectNames)
+
+    for (let i = 0; i < projectObjects.length; i++) {
+      projectNameContainerFactory(projectObjects[i].name)
     }
-    //set the first project in the list to a selected state
-    this.setFirstProjectAsSelected()
-  },
-  displayAdditionalProject: function (name) {
-    projectNameContainerFactory(name)
-  },
-  setFirstProjectAsSelected: function () {
-    const firstProject = DOMNodes.ulProjectNames.firstChild
-    firstProject.classList.add('selected')
+
+    let selectedProject = DOMNodes.ulProjectNames.firstChild
+
+    this.toggleSelectedState(selectedProject)
   },
   toggleSelectedState: function (element) {
     element.classList.toggle('selected')
   },
   changeSelectedProject: function () {
     const siblings = DOMNodes.ulProjectNames.children
-    if (!window.event.target.classList.contains('selected')) { 
+    if (!window.event.target.classList.contains('selected')) {
       for (let i = 0; i < siblings.length; i++) {
         if (siblings[i].classList.contains('selected')) {
-          userInterface.toggleSelectedState(siblings[i]);
+          userInterface.toggleSelectedState(siblings[i])
         }
       }
       userInterface.toggleSelectedState(this)
