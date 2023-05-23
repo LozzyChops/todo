@@ -9,6 +9,7 @@ const DOMNodes = {
   divProjectList: document.createElement('div'),
   divProjectListHeading: document.createElement('div'),
   divContent: document.createElement('div'),
+  btnContent: document.createElement('button'),
   divToDoList: document.createElement('div'),
   ulProjectNames: document.createElement('ul'),
   hdrProjectList: document.createElement('h1'),
@@ -26,6 +27,7 @@ function setUpInitHTML() {
   DOMNodes.divProjectListHeading.setAttribute('id', 'project-list-heading')
   DOMNodes.divProjectListHeading.classList.add('flex-container')
   DOMNodes.divContent.setAttribute('id', 'content')
+  DOMNodes.btnContent.classList.add('add-button')
   DOMNodes.divToDoList.setAttribute('id', 'to-do-list')
   DOMNodes.ulProjectNames.setAttribute('id', 'project-names')
   DOMNodes.hdrProjectList.classList.add('header')
@@ -40,6 +42,7 @@ function setUpInitHTML() {
   DOMNodes.divSideBar.appendChild(DOMNodes.divProjectList)
   DOMNodes.divRoot.appendChild(DOMNodes.divSideBar)
 
+  DOMNodes.divContent.appendChild(DOMNodes.btnContent)
   DOMNodes.divContent.appendChild(DOMNodes.divToDoList)
   DOMNodes.divRoot.appendChild(DOMNodes.divContent)
 
@@ -48,6 +51,7 @@ function setUpInitHTML() {
   //setup text content
   DOMNodes.hdrProjectList.textContent = 'MY PROJECTS'
   DOMNodes.btnProjectList.textContent = '+'
+  DOMNodes.btnContent.textContent = '+'
 
   //setup events
   //setup the add-project button to add a project to the collection and update the display
@@ -70,3 +74,11 @@ const projectNameContainerFactory = (name) => {
 }
 
 export { DOMNodes, setUpInitHTML, projectNameContainerFactory }
+
+/*
+//setup the add-task button to add a task to the selected project and update the display
+DOMNodes.btnContent.addEventListener('click', function () {
+  let taskName = prompt('Enter task name', 'EXAMPLE TASK')
+  projects.addTask(taskName)
+})
+*/
