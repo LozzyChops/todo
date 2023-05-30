@@ -1,39 +1,39 @@
-import { DOMNodes, setUpInitHTML, removeAllChildNodes, projectNameContainerFactory } from './DOM'
-import { projects } from './tools'
+import { DOMNodes, setUpInitHTML, displayProjectName, displayTask, emptyProjectsDisplay, emptyTasksDisplay } from './DOM'
+import { projects, projectControls } from './tools'
 
 const userInterface = {
-  displayableProjects: projects.all,
+  tempForTesting: function () {
+    projectControls.addProject('DEFAULT')
+    projectControls.addProject('EXAMPLE 1')
+    projectControls.addProject('EXAMPLE 2')
+    projects[0].addTask({title: 'DEFAULT TASK 1'})
+    projects[0].addTask({title: 'DEFAULT TASK 2'})
+    projects[1].addTask({title: 'EXAMPLE 1 TASK 1'})
+    projects[2].addTask({title: 'EXAMPLE 2 TASK 1'})
+    projects[2].addTask({title: 'EXAMPLE 2 TASK 2'})
+    projects[2].addTask({title: 'EXAMPLE 2 TASK 3'})
+    this.selectedProject = projects[0]
+    this.selectedProject.onDisplay = true
+  },
   displayHomePage: function () {
     setUpInitHTML()
-
-    //TEMP adding a default project
-    projects.addProject('DEFAULT')
-
-    this.displayProjects(this.displayableProjects)
+    this.tempForTesting()
+    this.displayProjects()
   },
-  displayProjects: function (projectObjects) {
-    removeAllChildNodes(DOMNodes.ulProjectNames)
-
-    for (let i = 0; i < projectObjects.length; i++) {
-      projectNameContainerFactory(projectObjects[i].name)
+  displayProjects: function () {
+    emptyProjectsDisplay()
+    
+    for (const project in projects) {
+      displayProjectName(projects[project], DOMNodes.ulProjectNames)
     }
 
-    let selectedProject = DOMNodes.ulProjectNames.firstChild
+    this.displayTasks()
+  },
+  displayTasks: function () {
+    emptyTasksDisplay()
 
-    this.toggleSelectedState(selectedProject)
-  },
-  toggleSelectedState: function (element) {
-    element.classList.toggle('selected')
-  },
-  changeSelectedProject: function () {
-    const siblings = DOMNodes.ulProjectNames.children
-    if (!window.event.target.classList.contains('selected')) {
-      for (let i = 0; i < siblings.length; i++) {
-        if (siblings[i].classList.contains('selected')) {
-          userInterface.toggleSelectedState(siblings[i])
-        }
-      }
-      userInterface.toggleSelectedState(this)
+    for (const task in this.selectedProject['tasks']) {
+      displayTask(this.selectedProject.tasks[task])
     }
   },
 }

@@ -1,37 +1,35 @@
 import { userInterface } from "./UI"
 
-const projects = {
-  all: [],
-  //create a project with the name it was provided
-  createProject: (name) => {
-    const taskArray = []
+function Project (name) {
+  this.name = name
+  this.tasks = []
+  this.onDisplay = false
+  this.changeName = function (name) {
+    this.name = name
+  }
+  this.addTask = function (task) {
+    this.tasks.push(task)
+  }
+  this.removeTask = function (task) {
+    this.tasks.splice(this.tasks.indexOf(task), 1)
+  }
+}
 
-    return { name, taskArray }
-  },
-  //add a project to all with a name from a prompt
+function Task (title, description, dueDate, priority) {
+  this.title = title
+  this.description = description
+  this.dueDate = dueDate
+  this.priority = priority
+}
+
+const projects = []
+
+const projectControls = {
   addProject: (name) => {
-    const newProject = projects.createProject(name)
-    let updatedProjects = projects;
+    projects.push(new Project(name))
 
-    updatedProjects.all.push(newProject)
-
-    return updatedProjects
+    return projects
   },
 }
 
-export { projects }
-
-/*
-  //create a task with the details provided
-  createTask: (title, description, dueDate, priority) => {
-    return { title, description, dueDate, priority }
-  },
-  //add a task to the selected project
-  addTask: () => {
-    const project = userInterface.getSelectedProject()
-    console.log(project);
-
-    const task = this.createTask();
-    project.taskArray.push(task)
-  }
-*/
+export { Project, Task, projects, projectControls }
