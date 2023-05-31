@@ -73,7 +73,7 @@ function setUpInitHTML() {
   })
 }
 
-function displayProjectName(project, container) {
+function displayProjectName(project) {
   const li = document.createElement('li')
   li.classList.add('project-name')
 
@@ -81,9 +81,13 @@ function displayProjectName(project, container) {
 
   li.textContent = li.associatedProject.name
 
-  li.addEventListener('click', setSelectedProject)
+  li.addEventListener('click', userInterface.setSelectedProject)
 
-  container.appendChild(li)
+  if (li.associatedProject.onDisplay) {
+    li.classList.add('selected')
+  }
+
+  DOMNodes.ulProjectNames.appendChild(li)
 }
 
 function displayTask(task) {
@@ -95,23 +99,6 @@ function displayTask(task) {
   div.textContent = div.associatedTask.title
 
   DOMNodes.divContent.appendChild(div)
-}
-
-function setSelectedProject() {
-  userInterface.selectedProject = window.event.target.associatedProject
-  swapSelected()
-  userInterface.displayTasks()
-}
-
-function swapSelected() {
-  const nodeList = DOMNodes.ulProjectNames.childNodes
-  for (let node of nodeList) {
-    if (node.classList.contains('selected')) {
-      node.classList.remove('selected')
-    }
-  }
-  window.event.target.classList.add('selected')
-  userInterface.displayTasks()
 }
 
 const emptyProjectsDisplay = () => {
@@ -133,14 +120,6 @@ export {
   setUpInitHTML,
   displayProjectName,
   displayTask,
-  swapSelected,
   emptyProjectsDisplay,
   emptyTasksDisplay,
 }
-
-/*
-document.getElementById("myBtn").onclick = function() {myFunction()};
-
-function myFunction() {
-  document.getElementById("myDropdown").classList.toggle("show");
-} */

@@ -1,5 +1,3 @@
-import { userInterface } from "./UI"
-
 function Project (name) {
   this.name = name
   this.tasks = []
