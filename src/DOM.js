@@ -1,5 +1,5 @@
 import { userInterface } from './UI'
-import { projectControls } from './tools'
+import { Project, Task, projects } from './tools'
 
 const DOMNodes = {
   body: document.querySelector('body'),
@@ -59,18 +59,23 @@ function setUpInitHTML() {
 
   //events
   DOMNodes.btnProjectList.addEventListener('click', function () {
-    //prompt gives a string to make a new project
     let newProjectName = prompt('Enter project name', 'EXAMPLE PROJECT')
 
-    //a new set of project objects
-    let newProjectSet = projectControls.addProject(newProjectName).all
+    let newProject = new Project(newProjectName)
 
-    //update display using the new set of projects
-    userInterface.displayProjects(newProjectSet)
+    projects.push(newProject)
+
+    userInterface.displayProjects()
   })
 
   DOMNodes.btnContent.addEventListener('click', function () {
-    //TBD
+    let newTaskTitle = prompt('Enter task title', 'EXAMPLE TITLE')
+
+    let newTask = new Task(newTaskTitle)
+
+    userInterface.selectedProject.tasks.push(newTask)
+
+    userInterface.displayTasks()
   })
 }
 
@@ -99,7 +104,7 @@ function displayTask(task) {
 
   div.textContent = div.associatedTask.title
 
-  DOMNodes.divContent.appendChild(div)
+  DOMNodes.divToDoList.appendChild(div)
 }
 
 const emptyProjectsDisplay = () => {
@@ -110,17 +115,10 @@ const emptyProjectsDisplay = () => {
 }
 
 const emptyTasksDisplay = () => {
-  DOMNodes.divContent.remove()
-  DOMNodes.divContent = document.createElement('div')
-  DOMNodes.divContent.setAttribute('id', 'content')
-  DOMNodes.divContent.classList.add('flex-container')
-
-  DOMNodes.btnContent = document.createElement('button')
-  DOMNodes.btnContent.classList.add('add-button')
-  DOMNodes.btnContent.textContent = '+'
-
-  DOMNodes.divContent.appendChild(DOMNodes.btnContent)
-  DOMNodes.divRoot.appendChild(DOMNodes.divContent)
+  DOMNodes.divToDoList.remove()
+  DOMNodes.divToDoList = document.createElement('div')
+  DOMNodes.divToDoList.setAttribute('id', 'to-do-list')
+  DOMNodes.divContent.appendChild(DOMNodes.divToDoList)
 }
 
 export {
