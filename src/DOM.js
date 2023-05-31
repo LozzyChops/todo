@@ -34,6 +34,7 @@ function setUpInitHTML() {
   DOMNodes.divRoot.classList.add('flex-container')
   DOMNodes.divProjectList.classList.add('flex-container')
   DOMNodes.divProjectListHeading.classList.add('flex-container')
+  DOMNodes.divContent.classList.add('flex-container')
   DOMNodes.btnContent.classList.add('add-button')
   DOMNodes.hdrProjectList.classList.add('header')
   DOMNodes.btnProjectList.classList.add('add-button')
@@ -112,6 +113,13 @@ const emptyTasksDisplay = () => {
   DOMNodes.divContent.remove()
   DOMNodes.divContent = document.createElement('div')
   DOMNodes.divContent.setAttribute('id', 'content')
+  DOMNodes.divContent.classList.add('flex-container')
+
+  DOMNodes.btnContent = document.createElement('button')
+  DOMNodes.btnContent.classList.add('add-button')
+  DOMNodes.btnContent.textContent = '+'
+
+  DOMNodes.divContent.appendChild(DOMNodes.btnContent)
   DOMNodes.divRoot.appendChild(DOMNodes.divContent)
 }
 

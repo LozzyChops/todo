@@ -68,6 +68,8 @@
 }
 
 #content {
+  flex-direction: column;
+  gap: 36px;
   background-color: bisque;
   width: 100%;
   height: 100%;
