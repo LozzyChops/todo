@@ -73,6 +73,12 @@ function setUpInitHTML() {
 
     let newTask = new Task(newTaskTitle)
 
+    newTask.description = prompt('Enter task description', 'Example description')
+
+    newTask.dueDate = prompt('When is it due?', '')
+
+    newTask.priority = prompt('Choose a priority', '')
+
     userInterface.selectedProject.tasks.push(newTask)
 
     userInterface.displayTasks()
