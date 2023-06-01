@@ -8,7 +8,7 @@ const DOMNodes = {
   divRoot: document.createElement('div'),
   divSideBar: document.createElement('div'),
   divProjectList: document.createElement('div'),
-  divProjectListHeading: document.createElement('div'),
+  divProjectListHeader: document.createElement('div'),
   divContent: document.createElement('div'),
   divToDoList: document.createElement('div'),
 
@@ -26,23 +26,23 @@ function setUpInitHTML() {
   DOMNodes.divRoot.setAttribute('id', 'root')
   DOMNodes.divSideBar.setAttribute('id', 'side-bar')
   DOMNodes.divProjectList.setAttribute('id', 'project-list')
-  DOMNodes.divProjectListHeading.setAttribute('id', 'project-list-heading')
+  DOMNodes.divProjectListHeader.setAttribute('id', 'project-list-header')
   DOMNodes.divContent.setAttribute('id', 'content')
   DOMNodes.divToDoList.setAttribute('id', 'to-do-list')
   DOMNodes.ulProjectNames.setAttribute('id', 'project-names')
 
   DOMNodes.divRoot.classList.add('flex-container')
   DOMNodes.divProjectList.classList.add('flex-container')
-  DOMNodes.divProjectListHeading.classList.add('flex-container')
+  DOMNodes.divProjectListHeader.classList.add('flex-container')
   DOMNodes.divContent.classList.add('flex-container')
   DOMNodes.btnContent.classList.add('add-button')
   DOMNodes.hdrProjectList.classList.add('header')
   DOMNodes.btnProjectList.classList.add('add-button')
 
   //structure
-  DOMNodes.divProjectListHeading.appendChild(DOMNodes.hdrProjectList)
-  DOMNodes.divProjectListHeading.appendChild(DOMNodes.btnProjectList)
-  DOMNodes.divProjectList.appendChild(DOMNodes.divProjectListHeading)
+  DOMNodes.divProjectListHeader.appendChild(DOMNodes.hdrProjectList)
+  DOMNodes.divProjectListHeader.appendChild(DOMNodes.btnProjectList)
+  DOMNodes.divProjectList.appendChild(DOMNodes.divProjectListHeader)
   DOMNodes.divProjectList.appendChild(DOMNodes.ulProjectNames)
   DOMNodes.divSideBar.appendChild(DOMNodes.divProjectList)
   DOMNodes.divRoot.appendChild(DOMNodes.divSideBar)
