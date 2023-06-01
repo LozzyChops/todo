@@ -8,7 +8,7 @@
   display: flex;
 }
 
-.selected {
+.selected > button {
   color: blue;
 }
 
@@ -71,7 +71,7 @@
   padding: 0;
 }
 
-#project-names > button {
+.project-name > button {
   padding: 0;
   background: none;
   border: none;
@@ -80,7 +80,7 @@
   outline: inherit;
 }
 
-#project-names > button:hover {
+.project-name > button:hover {
   font-weight: bold;
 }
 

@@ -89,20 +89,24 @@ function setUpInitHTML() {
 }
 
 function displayProjectName(project) {
-  const listItem = document.createElement('button')
-  listItem.classList.add('project-name')
+  const buttonContainer = document.createElement('div')
+  const nameButton = document.createElement('button')
 
-  listItem.associatedProject = project
+  buttonContainer.classList.add('project-name')
 
-  listItem.textContent = listItem.associatedProject.name
+  buttonContainer.associatedProject = project
+  nameButton.associatedProject = project
 
-  listItem.addEventListener('click', userInterface.setSelectedProject)
+  nameButton.textContent = buttonContainer.associatedProject.name
 
-  if (listItem.associatedProject.onDisplay) {
-    listItem.classList.add('selected')
+  nameButton.addEventListener('click', userInterface.setSelectedProject)
+
+  if (buttonContainer.associatedProject.onDisplay) {
+    buttonContainer.classList.add('selected')
   }
 
-  DOMNodes.divProjectNames.appendChild(listItem)
+  buttonContainer.appendChild(nameButton)
+  DOMNodes.divProjectNames.appendChild(buttonContainer)
 }
 
 function displayTask(task) {

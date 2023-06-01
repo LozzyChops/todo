@@ -13,7 +13,7 @@ const userInterface = {
   },
   setUpFirstTime: function () {
     projectControls.addProject('EXPLORE SITE')
-    projects[0].tasks.push(new Task('Your first task:  Try adding projects, or adding tasks to this DEFAULT project'))
+    projects[0].tasks.push(new Task('CLICK ON THIS TASK'))
   },
   displayHomePage: function () {
     this.determineIfFirstLoad()
