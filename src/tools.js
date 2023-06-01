@@ -1,4 +1,4 @@
-function Project (name) {
+function Project(name) {
   this.name = name
   this.tasks = []
   this.onDisplay = false
@@ -13,7 +13,7 @@ function Project (name) {
   }
 }
 
-function Task (title, description, dueDate, priority) {
+function Task(title, description, dueDate, priority) {
   this.title = title
   this.description = description
   this.dueDate = dueDate
