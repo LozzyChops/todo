@@ -6,7 +6,6 @@ const DOMNodes = {
 
   divRoot: document.createElement('div'),
   divSideBar: document.createElement('div'),
-  divMenu: document.createElement('div'),
   divProjectList: document.createElement('div'),
   divProjectListHeading: document.createElement('div'),
   divContent: document.createElement('div'),
@@ -24,7 +23,6 @@ function setUpInitHTML() {
   //labels
   DOMNodes.divRoot.setAttribute('id', 'root')
   DOMNodes.divSideBar.setAttribute('id', 'side-bar')
-  DOMNodes.divMenu.setAttribute('id', 'menu')
   DOMNodes.divProjectList.setAttribute('id', 'project-list')
   DOMNodes.divProjectListHeading.setAttribute('id', 'project-list-heading')
   DOMNodes.divContent.setAttribute('id', 'content')
@@ -40,7 +38,6 @@ function setUpInitHTML() {
   DOMNodes.btnProjectList.classList.add('add-button')
 
   //structure
-  DOMNodes.divSideBar.appendChild(DOMNodes.divMenu)
   DOMNodes.divProjectListHeading.appendChild(DOMNodes.hdrProjectList)
   DOMNodes.divProjectListHeading.appendChild(DOMNodes.btnProjectList)
   DOMNodes.divProjectList.appendChild(DOMNodes.divProjectListHeading)
