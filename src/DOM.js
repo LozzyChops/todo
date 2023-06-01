@@ -8,11 +8,11 @@ const DOMNodes = {
   divRoot: document.createElement('div'),
   divSideBar: document.createElement('div'),
   divProjectList: document.createElement('div'),
-  divProjectListHeader: document.createElement('div'),
+  divProjectListHead: document.createElement('div'),
+  divProjectListHeading: document.createElement('div'),
   divContent: document.createElement('div'),
   divToDoList: document.createElement('div'),
-
-  ulProjectNames: document.createElement('ul'),
+  divProjectNames: document.createElement('div'),
 
   hdrProjectList: document.createElement('h1'),
 
@@ -26,24 +26,27 @@ function setUpInitHTML() {
   DOMNodes.divRoot.setAttribute('id', 'root')
   DOMNodes.divSideBar.setAttribute('id', 'side-bar')
   DOMNodes.divProjectList.setAttribute('id', 'project-list')
-  DOMNodes.divProjectListHeader.setAttribute('id', 'project-list-header')
+  DOMNodes.divProjectListHead.setAttribute('id', 'project-list-head')
+  DOMNodes.divProjectListHeading.setAttribute('id', 'project-list-header')
   DOMNodes.divContent.setAttribute('id', 'content')
   DOMNodes.divToDoList.setAttribute('id', 'to-do-list')
-  DOMNodes.ulProjectNames.setAttribute('id', 'project-names')
+  DOMNodes.divProjectNames.setAttribute('id', 'project-names')
 
   DOMNodes.divRoot.classList.add('flex-container')
   DOMNodes.divProjectList.classList.add('flex-container')
-  DOMNodes.divProjectListHeader.classList.add('flex-container')
+  DOMNodes.divProjectListHead.classList.add('flex-container')
   DOMNodes.divContent.classList.add('flex-container')
   DOMNodes.btnContent.classList.add('add-button')
-  DOMNodes.hdrProjectList.classList.add('header')
+  DOMNodes.divProjectListHeading.classList.add('heading')
   DOMNodes.btnProjectList.classList.add('add-button')
 
   //structure
-  DOMNodes.divProjectListHeader.appendChild(DOMNodes.hdrProjectList)
-  DOMNodes.divProjectListHeader.appendChild(DOMNodes.btnProjectList)
-  DOMNodes.divProjectList.appendChild(DOMNodes.divProjectListHeader)
-  DOMNodes.divProjectList.appendChild(DOMNodes.ulProjectNames)
+  DOMNodes.divProjectListHeading.appendChild(DOMNodes.hdrProjectList)
+  DOMNodes.divProjectListHead.appendChild(DOMNodes.divProjectListHeading)
+  DOMNodes.divProjectListHead.appendChild(DOMNodes.btnProjectList)
+  DOMNodes.divProjectList.appendChild(DOMNodes.divProjectListHead)
+  DOMNodes.divProjectList.appendChild(DOMNodes.divProjectNames)
+
   DOMNodes.divSideBar.appendChild(DOMNodes.divProjectList)
   DOMNodes.divRoot.appendChild(DOMNodes.divSideBar)
   DOMNodes.divContent.appendChild(DOMNodes.btnContent)
@@ -53,7 +56,7 @@ function setUpInitHTML() {
   DOMNodes.body.appendChild(DOMNodes.divRoot)
 
   //text
-  DOMNodes.hdrProjectList.textContent = 'MY PROJECTS'
+  DOMNodes.hdrProjectList.textContent = 'PROJECTS'
   DOMNodes.btnProjectList.textContent = '+'
   DOMNodes.btnContent.textContent = '+'
 
@@ -86,20 +89,20 @@ function setUpInitHTML() {
 }
 
 function displayProjectName(project) {
-  const li = document.createElement('li')
-  li.classList.add('project-name')
+  const listItem = document.createElement('button')
+  listItem.classList.add('project-name')
 
-  li.associatedProject = project
+  listItem.associatedProject = project
 
-  li.textContent = li.associatedProject.name
+  listItem.textContent = listItem.associatedProject.name
 
-  li.addEventListener('click', userInterface.setSelectedProject)
+  listItem.addEventListener('click', userInterface.setSelectedProject)
 
-  if (li.associatedProject.onDisplay) {
-    li.classList.add('selected')
+  if (listItem.associatedProject.onDisplay) {
+    listItem.classList.add('selected')
   }
 
-  DOMNodes.ulProjectNames.appendChild(li)
+  DOMNodes.divProjectNames.appendChild(listItem)
 }
 
 function displayTask(task) {
@@ -114,10 +117,10 @@ function displayTask(task) {
 }
 
 const emptyProjectsDisplay = () => {
-  DOMNodes.ulProjectNames.remove()
-  DOMNodes.ulProjectNames = document.createElement('ul')
-  DOMNodes.ulProjectNames.setAttribute('id', 'project-names')
-  DOMNodes.divProjectList.appendChild(DOMNodes.ulProjectNames)
+  DOMNodes.divProjectNames.remove()
+  DOMNodes.divProjectNames = document.createElement('div')
+  DOMNodes.divProjectNames.setAttribute('id', 'project-names')
+  DOMNodes.divProjectList.appendChild(DOMNodes.divProjectNames)
 }
 
 const emptyTasksDisplay = () => {
