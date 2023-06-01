@@ -4,6 +4,7 @@ import { Project, Task, projects } from './tools'
 const DOMNodes = {
   body: document.querySelector('body'),
 
+  divHeader: document.createElement('div'),
   divRoot: document.createElement('div'),
   divSideBar: document.createElement('div'),
   divProjectList: document.createElement('div'),
@@ -21,6 +22,7 @@ const DOMNodes = {
 
 function setUpInitHTML() {
   //labels
+  DOMNodes.divHeader.setAttribute('id', 'header')
   DOMNodes.divRoot.setAttribute('id', 'root')
   DOMNodes.divSideBar.setAttribute('id', 'side-bar')
   DOMNodes.divProjectList.setAttribute('id', 'project-list')
@@ -47,6 +49,7 @@ function setUpInitHTML() {
   DOMNodes.divContent.appendChild(DOMNodes.btnContent)
   DOMNodes.divContent.appendChild(DOMNodes.divToDoList)
   DOMNodes.divRoot.appendChild(DOMNodes.divContent)
+  DOMNodes.body.appendChild(DOMNodes.divHeader)
   DOMNodes.body.appendChild(DOMNodes.divRoot)
 
   //text
