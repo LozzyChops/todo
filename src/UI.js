@@ -8,27 +8,11 @@ import {
 import { Task, projects, projectControls } from './tools'
 
 const userInterface = {
-  testing: function () {
-    /*
-    projectControls.addProject('EXAMPLE 1')
-    projects[1].addTask({ title: 'TASK 1' })
-    projects[1].tasks[0].description = 'Example description'
-    projects[1].addTask({ title: 'TASK 2' })
-    projects[1].addTask({ title: 'TASK 3' })
-  
-    projectControls.addProject('EXAMPLE 2')
-    projects[0].addTask({ title: 'DEFAULT TASK 1' })
-    projects[0].addTask({ title: 'DEFAULT TASK 2' })
-    projects[1].addTask({ title: 'EXAMPLE 1 TASK 1' })
-    projects[2].addTask({ title: 'EXAMPLE 2 TASK 1' })
-    projects[2].addTask({ title: 'EXAMPLE 2 TASK 2' })
-    projects[2].addTask({ title: 'EXAMPLE 2 TASK 3' })*/
-  },
   determineIfFirstLoad: function () {
     this.isFirstLoad = true
   },
   setUpFirstTime: function () {
-    projectControls.addProject('DEFAULT')
+    projectControls.addProject('EXPLORE SITE')
     projects[0].tasks.push(new Task('Your first task:  Try adding projects, or adding tasks to this DEFAULT project'))
   },
   displayHomePage: function () {
@@ -40,7 +24,6 @@ const userInterface = {
       this.isFirstLoad = false
     }
 
-    this.testing()
     setUpInitHTML()
     this.setFirstProjectAsSelected()  
     this.displayProjects()
