@@ -124,8 +124,10 @@ function displayProjectName(project) {
     deleteButton.addEventListener('click', function () {
       projects.splice((projects.indexOf(this.parentElement.associatedProject)), 1)
 
-      userInterface.selectedProject = projects[0]
-      userInterface.selectedProject.onDisplay = true
+      if (projects.length > 0) {
+        userInterface.selectedProject = projects[0]
+        userInterface.selectedProject.onDisplay = true
+      }
 
       userInterface.displayProjects()
     })
