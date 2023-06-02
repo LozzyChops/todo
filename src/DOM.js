@@ -18,6 +18,9 @@ const DOMNodes = {
 
   btnProjectList: document.createElement('button'),
   btnContent: document.createElement('button'),
+
+  spanAddProject: document.createElement('span'),
+  spanAddTask: document.createElement('span')
 }
 
 function setUpInitHTML() {
@@ -36,19 +39,23 @@ function setUpInitHTML() {
   DOMNodes.divProjectList.classList.add('flex-container')
   DOMNodes.divProjectListHead.classList.add('flex-container')
   DOMNodes.divContent.classList.add('flex-container')
+  DOMNodes.spanAddTask.classList.add('material-icons')
   DOMNodes.btnContent.classList.add('add-button')
   DOMNodes.divProjectListHeading.classList.add('heading')
+  DOMNodes.spanAddProject.classList.add('material-icons')
   DOMNodes.btnProjectList.classList.add('add-button')
 
   //structure
   DOMNodes.divProjectListHeading.appendChild(DOMNodes.hdrProjectList)
   DOMNodes.divProjectListHead.appendChild(DOMNodes.divProjectListHeading)
+  DOMNodes.btnProjectList.appendChild(DOMNodes.spanAddProject)
   DOMNodes.divProjectListHead.appendChild(DOMNodes.btnProjectList)
   DOMNodes.divProjectList.appendChild(DOMNodes.divProjectListHead)
   DOMNodes.divProjectList.appendChild(DOMNodes.divProjectNames)
 
   DOMNodes.divSideBar.appendChild(DOMNodes.divProjectList)
   DOMNodes.divRoot.appendChild(DOMNodes.divSideBar)
+  DOMNodes.btnContent.appendChild(DOMNodes.spanAddTask)
   DOMNodes.divContent.appendChild(DOMNodes.btnContent)
   DOMNodes.divContent.appendChild(DOMNodes.divToDoList)
   DOMNodes.divRoot.appendChild(DOMNodes.divContent)
@@ -57,8 +64,8 @@ function setUpInitHTML() {
 
   //text
   DOMNodes.hdrProjectList.innerText = 'PROJECTS'
-  DOMNodes.btnProjectList.innerText = '+'
-  DOMNodes.btnContent.innerText = '+'
+  DOMNodes.spanAddProject.innerHTML = 'add box'
+  DOMNodes.spanAddTask.innerHTML = 'add box'
 
   //events
   DOMNodes.btnProjectList.addEventListener('click', function () {
@@ -116,6 +123,9 @@ function displayProjectName(project) {
     deleteButton.classList.add('delete-button', 'material-icons')
     deleteButton.addEventListener('click', function () {
       projects.splice((projects.indexOf(this.parentElement.associatedProject)), 1)
+
+      userInterface.selectedProject = projects[0]
+      userInterface.selectedProject.onDisplay = true
 
       userInterface.displayProjects()
     })
