@@ -64,8 +64,8 @@ function setUpInitHTML() {
 
   //text
   DOMNodes.hdrProjectList.innerText = 'PROJECTS'
-  DOMNodes.spanAddProject.innerHTML = 'add box'
-  DOMNodes.spanAddTask.innerHTML = 'add box'
+  DOMNodes.spanAddProject.innerText = 'add_box'
+  DOMNodes.spanAddTask.innerText = 'add_box'
 
   //events
   DOMNodes.btnProjectList.addEventListener('click', function () {
