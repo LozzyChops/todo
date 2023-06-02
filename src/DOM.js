@@ -56,9 +56,9 @@ function setUpInitHTML() {
   DOMNodes.body.appendChild(DOMNodes.divRoot)
 
   //text
-  DOMNodes.hdrProjectList.textContent = 'PROJECTS'
-  DOMNodes.btnProjectList.textContent = '+'
-  DOMNodes.btnContent.textContent = '+'
+  DOMNodes.hdrProjectList.innerText = 'PROJECTS'
+  DOMNodes.btnProjectList.innerText = '+'
+  DOMNodes.btnContent.innerText = '+'
 
   //events
   DOMNodes.btnProjectList.addEventListener('click', function () {
@@ -76,7 +76,10 @@ function setUpInitHTML() {
 
     let newTask = new Task(newTaskTitle)
 
-    newTask.description = prompt('Enter task description', 'Example description')
+    newTask.description = prompt(
+      'Enter task description',
+      'Example description',
+    )
 
     newTask.dueDate = prompt('When is it due?', '')
 
@@ -89,23 +92,43 @@ function setUpInitHTML() {
 }
 
 function displayProjectName(project) {
+  const container = DOMNodes.divProjectNames
   const buttonContainer = document.createElement('div')
   const nameButton = document.createElement('button')
 
-  buttonContainer.classList.add('project-name')
+  buttonContainer.classList.add('project-name', 'flex-container')
+  nameButton.classList.add('project-name-button')
 
   buttonContainer.associatedProject = project
-  nameButton.associatedProject = project
 
-  nameButton.textContent = buttonContainer.associatedProject.name
+  nameButton.addEventListener('click', userInterface.checkSelectedProject)
 
-  nameButton.addEventListener('click', userInterface.setSelectedProject)
-
-  if (buttonContainer.associatedProject.onDisplay) {
-    buttonContainer.classList.add('selected')
-  }
+  nameButton.innerText = project.name
 
   buttonContainer.appendChild(nameButton)
+
+  if (project.onDisplay) {
+    const deleteButton = document.createElement('button')
+    const icon = document.createElement('span')
+
+    buttonContainer.classList.add('selected')
+
+    deleteButton.classList.add('delete-button', 'material-icons')
+    deleteButton.addEventListener('click', function () {
+      projects.splice((projects.indexOf(this.parentElement.associatedProject)), 1)
+
+      userInterface.displayProjects()
+    })
+
+    icon.classList.add('material-icons')
+    icon.innerText = 'delete'
+
+    deleteButton.appendChild(icon)
+    buttonContainer.appendChild(deleteButton)
+  }
+
+  container.appendChild(buttonContainer)
+
   DOMNodes.divProjectNames.appendChild(buttonContainer)
 }
 
@@ -115,7 +138,7 @@ function displayTask(task) {
 
   div.associatedTask = task
 
-  div.textContent = div.associatedTask.title
+  div.innerText = div.associatedTask.title
 
   DOMNodes.divToDoList.appendChild(div)
 }
@@ -142,3 +165,22 @@ export {
   emptyProjectsDisplay,
   emptyTasksDisplay,
 }
+
+/*
+
+      if (projects[project].onDisplay) {
+        let container = 
+        let deleteButton = document.createElement('button')
+        deleteButton.classList.add('delete')
+        deleteButton.innerText = 'hi'
+        container.appendChild(deleteButton)
+      }
+
+      for (const project in projects) {
+        if (projects[project].onDisplay) {
+          projects[project].onDisplay = false
+        }
+      }
+
+      userInterface.selectedProject.onDisplay = true
+      */
