@@ -12,7 +12,7 @@ const userInterface = {
     this.isFirstLoad = true
   },
   setUpFirstTime: function () {
-    projectControls.addProject('EXPLORE SITE')
+    projectControls.addProject('EXPLORE')
     projects[0].tasks.push(new Task('CLICK ON THIS TASK'))
   },
   displayHomePage: function () {
@@ -25,10 +25,9 @@ const userInterface = {
     }
 
     setUpInitHTML()
-    this.setFirstProjectAsSelected()  
+    this.setFirstProjectAsSelected()
     this.displayProjects()
   },
-  selectedProject: {},
   setFirstProjectAsSelected: function () {
     this.selectedProject = projects[0]
     this.selectedProject.onDisplay = true
@@ -38,10 +37,6 @@ const userInterface = {
 
     for (const project in projects) {
       displayProjectName(projects[project])
-
-      if (projects[project].onDisplay === true) {
-        this.selectedProject = projects[project]
-      }
     }
 
     this.displayTasks()
@@ -53,16 +48,19 @@ const userInterface = {
       displayTask(this.selectedProject.tasks[task])
     }
   },
-  setSelectedProject: function () {
-    this.selectedProject = window.event.target.associatedProject
-
-    for (const project in projects) {
-      if (projects[project].onDisplay) {
-        projects[project].onDisplay = false
-      }
+  checkSelectedProject: function () {
+    if (!this.parentElement.associatedProject.onDisplay) {
+      userInterface.setSelectedProject(this.parentElement.associatedProject)
     }
+  },
+  setSelectedProject: function (project) {
+    let oldSelection = userInterface.selectedProject
+    let clickedProject = project
 
-    this.selectedProject.onDisplay = true
+    oldSelection.onDisplay = false
+    userInterface.selectedProject = clickedProject
+    userInterface.selectedProject.onDisplay = true
+
     userInterface.displayProjects()
   },
 }
