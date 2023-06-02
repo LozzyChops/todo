@@ -4,6 +4,10 @@
   font-family: 'Courier New', Courier, monospace;
 }
 
+button {
+  padding: 0;
+}
+
 .material-icons {
   font-family: 'Material Icons';
   font-weight: normal;
@@ -30,16 +34,22 @@
   font-feature-settings: 'liga';
 }
 
+.material-icons,
+span {
+  height: 36px;
+  width: 36px;
+}
+
 .flex-container {
   display: flex;
 }
 
 .selected > button {
-  color: blue;
+  color: white;
 }
 
 .selected > button > span {
-  color: blue;
+  color: white;
 }
 
 #header {
@@ -107,7 +117,6 @@
 }
 
 .project-name > button {
-  padding: 0;
   background: none;
   border: none;
   font: inherit;
@@ -149,4 +158,6 @@
   box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
   border-radius: 2px;
   padding: 36px 36px;
+  /*TEMP min-height isn't ideal, learn how to make div extend to bottom of page no matter what*/
+  min-height: 670px;
 }
