@@ -127,6 +127,8 @@ function displayProjectName(project) {
       if (projects.length > 0) {
         userInterface.selectedProject = projects[0]
         userInterface.selectedProject.onDisplay = true
+      } else {
+        userInterface.animateProjectsButton()
       }
 
       userInterface.displayProjects()

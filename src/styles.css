@@ -161,3 +161,28 @@ span {
   /*TEMP min-height isn't ideal, learn how to make div extend to bottom of page no matter what*/
   min-height: 670px;
 }
+
+.animate {
+  animation-delay: 1s;
+  animation-duration: 1.5s;
+  animation-name: bounce;
+  animation-iteration-count: infinite;
+}
+
+@keyframes bounce {
+  0% {
+    transform: scale(1);
+  }
+
+  45% {
+    transform: scale(2);
+  }
+
+  55% {
+    transform: scale(2);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}

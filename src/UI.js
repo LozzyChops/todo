@@ -4,6 +4,7 @@ import {
   displayTask,
   emptyProjectsDisplay,
   emptyTasksDisplay,
+  DOMNodes,
 } from './DOM'
 import { Task, projects, projectControls } from './tools'
 
@@ -62,6 +63,10 @@ const userInterface = {
     userInterface.selectedProject.onDisplay = true
 
     userInterface.displayProjects()
+  },
+  animateProjectsButton: function () {
+    let button = DOMNodes.btnProjectList
+    button.classList.add('animate')
   },
 }
 
