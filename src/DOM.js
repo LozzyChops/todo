@@ -128,6 +128,8 @@ function displayProjectName(project) {
         userInterface.selectedProject = projects[0]
         userInterface.selectedProject.onDisplay = true
       } else {
+        userInterface.selectedProject = {}
+        userInterface.displayTasks()
         userInterface.animateProjectsButton()
       }
 
