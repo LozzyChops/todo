@@ -70,12 +70,13 @@ function setUpInitHTML() {
   //events
   DOMNodes.btnProjectList.addEventListener('click', function () {
     let newProjectName = prompt('Enter project name', 'EXAMPLE PROJECT')
+    let newProject
 
-    let newProject = new Project(newProjectName)
-
-    projects.push(newProject)
-
-    userInterface.displayProjects()
+    if (newProjectName !== "") {
+      newProject = new Project(newProjectName)
+      projects.push(newProject)
+      userInterface.displayProjects()
+    }    
   })
 
   DOMNodes.btnContent.addEventListener('click', function () {
