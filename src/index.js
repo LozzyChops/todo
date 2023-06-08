@@ -1,4 +1,9 @@
-import './styles.css'
-import { userInterface } from './UI'
+import { model } from './model'
+import { view } from './view'
 
-userInterface.displayHomePage()
+window.onload = function () {
+  //load further HTML based on the model state
+  view.init()
+}
+
+window.model = model
