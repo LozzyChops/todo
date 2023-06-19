@@ -1,42 +1,70 @@
 /*the responsibility of the model is to store the state and implement logic that modifies state*/
 
 const model = {
-  _lists: [],
-  getLists: function () {
-    if (this._lists.length < 1) {
-      this.addDefaultList()
-    }
-    return this._lists
+  updateRepository(lists) {
+    repository.lists = lists
+
+    return lists
   },
-  addList: function (list) {
-    this._lists.push(list)
-  },
-  makeList: function () {
-    return class {
+  makeList(newListName) {
+    class List {
       constructor(name) {
-        this.name = name
-        this.items = []
-        this.description
-        this.dueDate
-        this.isComplete = false
+        this._name = name
+        this._items = []
+        this._description
+        this._dueDate
       }
-      addItem(item) {
-        this.items.push(item)
+      get name() {
+        return this._name
+      }
+      set name(newName) {
+        if (newName === '') {
+          throw 'Error: The list name cannot be empty'
+        }
+        this._name = newName
+      }
+      get items() {
+        return this._items
       }
     }
+
+    const newList = new List(newListName)
+
+    return newList
   },
-  makeItem: function () {
-    return class {
+  makeItem(newItemName) {
+    class Item {
       constructor(name) {
-        this.name = name
-        this.isComplete = false
+        this._name = name
+      }
+      get name() {
+        return this._name
+      }
+      set name(newName) {
+        if (newName === '') {
+          throw 'Error: The item name cannot be empty'
+        }
+        this._name = newName
       }
     }
-  },
-  addDefaultList: function () {
-    const List = this.makeList()
-    this.addList(new List('DEFAULT'))
+
+    const newItem = new Item(newItemName)
+
+    return newItem
   },
 }
 
-export { model }
+const repository = {
+  _lists: [],
+  set lists(lists) {
+    this._lists = lists
+    localStorage.setItem('lists', JSON.stringify(lists))
+  },
+  get lists() {
+    this._lists = JSON.parse(localStorage.getItem('lists'))
+
+    return this._lists
+  },
+}
+
+export { model, repository }

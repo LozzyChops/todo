@@ -4,55 +4,173 @@ import { model } from './model'
 import { controller } from './controller'
 
 const view = {
-  init: function () {
-    let currentLists = model.getLists()
-    let firstListInDisplay = currentLists[0]
+  init(lists) {
+    let selectedList = lists[0]
+    let itemsContainer = document.getElementById('items-ul')
+    let listsContainer = document.getElementById('lists-ul')
+    let itemsHeader = document.getElementById('items-header')
+    let addListButton = document.getElementById('add-list')
 
-    controller.init(firstListInDisplay)
+    addListButton.addEventListener('click', function () {
+      let inputName = prompt('Enter list name')
 
-    this.displayLists(currentLists)
+      let newList = model.makeList(inputName)
+      lists.push(newList)
+      selectedList = newList
+      model.updateRepository(lists)
+      view.updateListsDisplay(
+        lists,
+        selectedList,
+        listsContainer,
+        itemsHeader,
+        itemsContainer,
+      )
+    })
+    this.updateListsDisplay(
+      lists,
+      selectedList,
+      listsContainer,
+      itemsHeader,
+      itemsContainer,
+    )
   },
-  displayLists: function (lists) {
-    let listsToDisplay = lists
-    const displayContainer = document.getElementById('lists-ul')
+  updateListsDisplay(
+    lists,
+    listToOpen,
+    listsContainer,
+    itemsHeader,
+    itemsContainer,
+  ) {
+    let selectedList
 
-    //empty the displayContainer of previous lists
-    displayContainer.replaceChildren()
+    this.emptyDisplay(listsContainer)
 
-    for (let list in listsToDisplay) {
-      this.makeDisplayListName(listsToDisplay[list], displayContainer)
+    if (!listToOpen) {
+      throw 'Error: updateListsDisplay did not receive a selectedList'
     }
 
-    this.displayItems()
-  },
-  displayItems: function () {
-    let listToOpen = controller.getOpenList()
-    let itemsToDisplay = listToOpen.items
-    const displayContainer = document.getElementById('items-ul')
+    if (lists.length < 1) {
+      this.displayNoLists(listsContainer)
+      selectedList = null
+    } else {
+      selectedList = listToOpen
 
-    //empty the displayContainer of previous items
-    displayContainer.replaceChildren()
+      this.makeAddItemButton(selectedList, itemsHeader, lists)
 
-    for (let item in itemsToDisplay) {
-      view.makeDisplayItemName(itemsToDisplay[item], displayContainer)
+      for (let list in lists) {
+        this.makeDisplayListName(
+          lists[list],
+          listsContainer,
+          selectedList,
+          lists,
+        )
+      }
+
+      this.displayItems(selectedList, itemsContainer)
     }
   },
-  makeDisplayListName: function (list, display) {
+  displayNoLists(container) {
+    const messageLastChild = container.parentNode
+    const message = document.createElement('p')
+
+    message.classList.add('no-lists')
+    message.textContent = 'No lists'
+    messageLastChild.appendChild(message)
+  },
+  emptyDisplay(container) {
+    container.replaceChildren()
+  },
+  displayItems(list, container) {
+    let associatedList = list
+    let items = associatedList._items
+
+    this.emptyDisplay(container)
+
+    for (let item of items) {
+      this.makeDisplayItemName(item)
+    }
+  },
+  displayNoItems() {
+    const messageLastChild = document.getElementById('items-ul').parentNode
+    const message = document.createElement('p')
+
+    message.classList.add('no-items')
+    message.textContent = 'No items'
+    messageLastChild.appendChild(message)
+  },
+  makeDisplayListName(list, container, selectedList, lists) {
     const li = document.createElement('li')
     li.list = list
-    li.textContent = list.name
+    li.textContent = list._name
     li.classList.add('list-name')
-    li.addEventListener('click', function (e) {
-      controller.setOpenList(e.target.list)
+
+    li.addEventListener('click', (e) => {
+      let eventTarget = e.target
+      let listsContainer = document.getElementById('lists-ul')
+      let itemsHeader = document.getElementById('items-header')
+      let itemsContainer = document.getElementById('items-ul')
+
+      if (eventTarget.list !== selectedList) {
+        selectedList = eventTarget.list
+
+        this.updateListsDisplay(
+          lists,
+          selectedList,
+          listsContainer,
+          itemsHeader,
+          itemsContainer,
+        )
+      }
     })
-    li.addEventListener('click', this.displayItems)
+
+    container.appendChild(li)
+
+    return li
+  },
+  makeDisplayItemName(item) {
+    const display = document.getElementById('items-ul')
+    const li = document.createElement('li')
+    li.textContent = item._name
+    li.classList.add('list-name')
     display.appendChild(li)
   },
-  makeDisplayItemName: function (item, display) {
-    const li = document.createElement('li')
-    li.textContent = item.name
-    li.classList.add('list-name')
-    display.appendChild(li)
+  makeAddItemButton(list, container, lists) {
+    let existingButton = document.getElementById('add-item')
+
+    if (existingButton) {
+      container.removeChild(existingButton)
+    }
+
+    const addItemButton = document.createElement('button')
+    addItemButton.setAttribute('type', 'button')
+    addItemButton.textContent = '+'
+    addItemButton.id = 'add-item'
+    addItemButton.associatedList = list
+    addItemButton.addEventListener('click', function () {
+      let inputName = prompt('Enter item name')
+      let newItem = model.makeItem(inputName)
+      list._items.push(newItem)
+      model.updateRepository(lists)
+      view.makeDisplayItemName(newItem)
+    })
+    container.appendChild(addItemButton)
+  },
+  displayDeleteButton() {
+    const container = document.getElementById('lists-div')
+    const deleteButton = document.createElement('button')
+    deleteButton.textContent = '-'
+    deleteButton.setAttribute('type', 'button')
+    deleteButton.addEventListener('click', function () {
+      const listToDelete = view.getOpenList()
+      const newLists = model.removeList(listToDelete)
+
+      if (newLists.length < 1) {
+        container.remove(deleteButton)
+      }
+
+      view.displayLists(newLists)
+    })
+    container.appendChild(deleteButton)
   },
 }
 
