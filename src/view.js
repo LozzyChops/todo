@@ -4,28 +4,25 @@ import { model, repository } from './model'
 import { controller } from './controller'
 
 const view = {
-  listsHeader: document.getElementById('lists-header'),
-  listsContainer: document.getElementById('lists-ul'),
-  itemsHeader: document.getElementById('items-header'),
-  itemsContainer: document.getElementById('items-ul'),
   init(lists) {
-    let selectedList = lists[0]
     let addListButton = document.getElementById('add-list')
+
+    model.selectedList = lists[0]
 
     addListButton.addEventListener('click', function () {
       let inputName = prompt('Enter list name')
 
       let newList = model.makeList(inputName)
       lists.push(newList)
-      selectedList = newList
+      model.selectedList = newList
       repository.lists = lists
-      view.updateListsDisplay(lists, selectedList)
+      view.updateListsDisplay(lists)
     })
-    this.updateListsDisplay(lists, selectedList)
+    this.updateListsDisplay(lists)
   },
-  updateListsDisplay(lists, listToOpen) {
-    let selectedList
+  updateListsDisplay(lists) {
     let container = view.listsContainer
+    let listToOpen = model.selectedList
 
     this.emptyDisplay(container)
 
@@ -35,18 +32,18 @@ const view = {
 
     if (lists.length < 1) {
       this.displayNoLists(view.listsContainer)
-      selectedList = null
+      model.selectedList = null
     } else {
-      selectedList = listToOpen
+      model.selectedList = listToOpen
 
-      this.makeAddItemButton(selectedList, lists)
+      this.makeAddItemButton(lists)
       this.makeDeleteButton()
 
       for (let list in lists) {
-        this.makeDisplayListName(lists[list], selectedList, lists)
+        this.makeDisplayListName(lists[list], lists)
       }
 
-      this.displayItems(selectedList)
+      this.displayItems(model.selectedList)
     }
   },
   displayNoLists() {
@@ -79,7 +76,7 @@ const view = {
     message.textContent = 'No items'
     messageLastChild.appendChild(message)
   },
-  makeDisplayListName(list, selectedList, lists) {
+  makeDisplayListName(list, lists) {
     const li = document.createElement('li')
     li.list = list
     li.textContent = list._name
@@ -88,10 +85,10 @@ const view = {
     li.addEventListener('click', (e) => {
       let eventTarget = e.target
 
-      if (eventTarget.list !== selectedList) {
-        selectedList = eventTarget.list
+      if (eventTarget.list !== model.selectedList) {
+        model.selectedList = eventTarget.list
 
-        this.updateListsDisplay(lists, selectedList)
+        this.updateListsDisplay(lists)
       }
     })
 
@@ -137,6 +134,10 @@ const view = {
       view.listsHeader.appendChild(deleteListButton)
     }
   },
+  listsHeader: document.getElementById('lists-header'),
+  listsContainer: document.getElementById('lists-ul'),
+  itemsHeader: document.getElementById('items-header'),
+  itemsContainer: document.getElementById('items-ul'),
 }
 
 export { view }
