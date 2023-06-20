@@ -1,14 +1,15 @@
 /*the responsibility of the view is to update the display when the state in the model changes*/
 
-import { model } from './model'
+import { model, repository } from './model'
 import { controller } from './controller'
 
 const view = {
+  listsHeader: document.getElementById('lists-header'),
+  listsContainer: document.getElementById('lists-ul'),
+  itemsHeader: document.getElementById('items-header'),
+  itemsContainer: document.getElementById('items-ul'),
   init(lists) {
     let selectedList = lists[0]
-    let itemsContainer = document.getElementById('items-ul')
-    let listsContainer = document.getElementById('lists-ul')
-    let itemsHeader = document.getElementById('items-header')
     let addListButton = document.getElementById('add-list')
 
     addListButton.addEventListener('click', function () {
@@ -17,60 +18,39 @@ const view = {
       let newList = model.makeList(inputName)
       lists.push(newList)
       selectedList = newList
-      model.updateRepository(lists)
-      view.updateListsDisplay(
-        lists,
-        selectedList,
-        listsContainer,
-        itemsHeader,
-        itemsContainer,
-      )
+      repository.lists = lists
+      view.updateListsDisplay(lists, selectedList)
     })
-    this.updateListsDisplay(
-      lists,
-      selectedList,
-      listsContainer,
-      itemsHeader,
-      itemsContainer,
-    )
+    this.updateListsDisplay(lists, selectedList)
   },
-  updateListsDisplay(
-    lists,
-    listToOpen,
-    listsContainer,
-    itemsHeader,
-    itemsContainer,
-  ) {
+  updateListsDisplay(lists, listToOpen) {
     let selectedList
+    let container = view.listsContainer
 
-    this.emptyDisplay(listsContainer)
+    this.emptyDisplay(container)
 
     if (!listToOpen) {
       throw 'Error: updateListsDisplay did not receive a selectedList'
     }
 
     if (lists.length < 1) {
-      this.displayNoLists(listsContainer)
+      this.displayNoLists(view.listsContainer)
       selectedList = null
     } else {
       selectedList = listToOpen
 
-      this.makeAddItemButton(selectedList, itemsHeader, lists)
+      this.makeAddItemButton(selectedList, lists)
+      this.makeDeleteButton()
 
       for (let list in lists) {
-        this.makeDisplayListName(
-          lists[list],
-          listsContainer,
-          selectedList,
-          lists,
-        )
+        this.makeDisplayListName(lists[list], selectedList, lists)
       }
 
-      this.displayItems(selectedList, itemsContainer)
+      this.displayItems(selectedList)
     }
   },
-  displayNoLists(container) {
-    const messageLastChild = container.parentNode
+  displayNoLists() {
+    const messageLastChild = view.listsContainer.parentNode
     const message = document.createElement('p')
 
     message.classList.add('no-lists')
@@ -80,9 +60,10 @@ const view = {
   emptyDisplay(container) {
     container.replaceChildren()
   },
-  displayItems(list, container) {
+  displayItems(list) {
     let associatedList = list
     let items = associatedList._items
+    let container = view.itemsContainer
 
     this.emptyDisplay(container)
 
@@ -98,7 +79,7 @@ const view = {
     message.textContent = 'No items'
     messageLastChild.appendChild(message)
   },
-  makeDisplayListName(list, container, selectedList, lists) {
+  makeDisplayListName(list, selectedList, lists) {
     const li = document.createElement('li')
     li.list = list
     li.textContent = list._name
@@ -106,24 +87,15 @@ const view = {
 
     li.addEventListener('click', (e) => {
       let eventTarget = e.target
-      let listsContainer = document.getElementById('lists-ul')
-      let itemsHeader = document.getElementById('items-header')
-      let itemsContainer = document.getElementById('items-ul')
 
       if (eventTarget.list !== selectedList) {
         selectedList = eventTarget.list
 
-        this.updateListsDisplay(
-          lists,
-          selectedList,
-          listsContainer,
-          itemsHeader,
-          itemsContainer,
-        )
+        this.updateListsDisplay(lists, selectedList)
       }
     })
 
-    container.appendChild(li)
+    view.listsContainer.appendChild(li)
 
     return li
   },
@@ -134,43 +106,36 @@ const view = {
     li.classList.add('list-name')
     display.appendChild(li)
   },
-  makeAddItemButton(list, container, lists) {
+  makeAddItemButton(list, lists) {
     let existingButton = document.getElementById('add-item')
 
-    if (existingButton) {
-      container.removeChild(existingButton)
+    if (!existingButton) {
+      const addItemButton = document.createElement('button')
+      addItemButton.setAttribute('type', 'button')
+      addItemButton.textContent = '+'
+      addItemButton.id = 'add-item'
+      addItemButton.associatedList = list
+      addItemButton.addEventListener('click', function () {
+        let inputName = prompt('Enter item name')
+        let newItem = model.makeItem(inputName)
+        list._items.push(newItem)
+        repository.lists = lists
+        view.makeDisplayItemName(newItem)
+      })
+      view.itemsHeader.appendChild(addItemButton)
     }
-
-    const addItemButton = document.createElement('button')
-    addItemButton.setAttribute('type', 'button')
-    addItemButton.textContent = '+'
-    addItemButton.id = 'add-item'
-    addItemButton.associatedList = list
-    addItemButton.addEventListener('click', function () {
-      let inputName = prompt('Enter item name')
-      let newItem = model.makeItem(inputName)
-      list._items.push(newItem)
-      model.updateRepository(lists)
-      view.makeDisplayItemName(newItem)
-    })
-    container.appendChild(addItemButton)
   },
-  displayDeleteButton() {
-    const container = document.getElementById('lists-div')
-    const deleteButton = document.createElement('button')
-    deleteButton.textContent = '-'
-    deleteButton.setAttribute('type', 'button')
-    deleteButton.addEventListener('click', function () {
-      const listToDelete = view.getOpenList()
-      const newLists = model.removeList(listToDelete)
+  makeDeleteButton() {
+    let existingButton = document.getElementById('delete-list')
 
-      if (newLists.length < 1) {
-        container.remove(deleteButton)
-      }
-
-      view.displayLists(newLists)
-    })
-    container.appendChild(deleteButton)
+    if (!existingButton) {
+      const deleteListButton = document.createElement('button')
+      deleteListButton.setAttribute('type', 'button')
+      deleteListButton.textContent = '-'
+      deleteListButton.id = 'delete-list'
+      deleteListButton.addEventListener('click', function () {})
+      view.listsHeader.appendChild(deleteListButton)
+    }
   },
 }
 

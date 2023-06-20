@@ -1,11 +1,6 @@
 /*the responsibility of the model is to store the state and implement logic that modifies state*/
 
 const model = {
-  updateRepository(lists) {
-    repository.lists = lists
-
-    return lists
-  },
   makeList(newListName) {
     class List {
       constructor(name) {
@@ -52,6 +47,13 @@ const model = {
 
     return newItem
   },
+  _selectedList: {},
+  set selectedList(list) {
+    this._selectedList = list
+  },
+  get selectedList() {
+    return this._selectedList
+  }
 }
 
 const repository = {
