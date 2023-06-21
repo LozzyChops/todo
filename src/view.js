@@ -5,11 +5,11 @@ import { controller } from './controller'
 
 const view = {
   init(lists) {
-    let addListButton = document.getElementById('add-list')
-
-    model.selectedList = lists[0]
-
-    addListButton.addEventListener('click', function () {
+    this.setUpButtons(lists)
+    this.updateListsDisplay(lists)
+  },
+  setUpButtons(lists) {
+    this.addListButton.addEventListener('click', function () {
       let inputName = prompt('Enter list name')
 
       let newList = model.makeList(inputName)
@@ -18,7 +18,32 @@ const view = {
       repository.lists = lists
       view.updateListsDisplay(lists)
     })
-    this.updateListsDisplay(lists)
+
+    this.addItemButton.associatedList = model.selectedList
+    this.addItemButton.addEventListener('click', function () {
+      let inputName = prompt('Enter item name')
+      let newItem = model.makeItem(inputName)
+      let list = model.selectedList
+      list._items.push(newItem)
+      repository.lists = lists
+      view.makeDisplayItemName(newItem)
+    })
+
+    this.deleteListButton.addEventListener('click', function () {
+      let lists = repository.lists
+      let selectedList = model.selectedList
+      let selectedIndex = lists.findIndex(
+        (list) => list._id === selectedList._id,
+      )
+
+      if (selectedIndex !== -1) {
+        lists.splice(selectedIndex, 1)
+      }
+
+      repository.lists = lists
+
+      view.updateListsDisplay(repository.lists)
+    })
   },
   updateListsDisplay(lists) {
     let container = view.listsContainer
@@ -36,8 +61,8 @@ const view = {
     } else {
       model.selectedList = listToOpen
 
-      this.makeAddItemButton(lists)
-      this.makeDeleteButton()
+      //this.makeAddItemButton(lists)
+      //this.makeDeleteButton()
 
       for (let list in lists) {
         this.makeDisplayListName(lists[list], lists)
@@ -103,7 +128,7 @@ const view = {
     li.classList.add('list-name')
     display.appendChild(li)
   },
-  makeAddItemButton(list, lists) {
+  /*makeAddItemButton(list, lists) {
     let existingButton = document.getElementById('add-item')
 
     if (!existingButton) {
@@ -133,11 +158,14 @@ const view = {
       deleteListButton.addEventListener('click', function () {})
       view.listsHeader.appendChild(deleteListButton)
     }
-  },
+  },*/
   listsHeader: document.getElementById('lists-header'),
   listsContainer: document.getElementById('lists-ul'),
   itemsHeader: document.getElementById('items-header'),
   itemsContainer: document.getElementById('items-ul'),
+  addListButton: document.getElementById('add-list'),
+  addItemButton: document.getElementById('add-item'),
+  deleteListButton: document.getElementById('delete-list'),
 }
 
 export { view }

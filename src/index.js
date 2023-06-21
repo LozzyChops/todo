@@ -5,6 +5,7 @@ import { controller } from './controller'
 
 window.onload = () => {
   let lists = controller.checkForLocalStorage()
+  controller.setSelectedList(lists[0])
   view.init(lists)
 }
 

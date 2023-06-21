@@ -4,6 +4,7 @@ const model = {
   makeList(newListName) {
     class List {
       constructor(name) {
+        this._id = repository.listIDCounter
         this._name = name
         this._items = []
         this._description
@@ -53,7 +54,7 @@ const model = {
   },
   get selectedList() {
     return this._selectedList
-  }
+  },
 }
 
 const repository = {
@@ -67,6 +68,18 @@ const repository = {
 
     return this._lists
   },
+  _listIDCounter: 0,
+  get listIDCounter() {
+    let oldID = JSON.parse(localStorage.getItem("listIDCounter"))
+    if (typeof oldID === "undefined" || !oldID){
+      this._listIDCounter++
+      localStorage.setItem('listIDCounter', JSON.stringify(this._listIDCounter))
+    } else {
+      this._listIDCounter = parseInt(oldID)+1;
+      localStorage.setItem('listIDCounter', JSON.stringify(this._listIDCounter));
+    }
+      return this._listIDCounter
+  }
 }
 
 export { model, repository }

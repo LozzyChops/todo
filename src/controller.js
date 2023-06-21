@@ -5,6 +5,9 @@ import { model, repository } from './model'
 import { view } from './view'
 
 const controller = {
+  setSelectedList: function (list) {
+    model.selectedList = list
+  },
   checkForLocalStorage: function () {
     let lists
 
